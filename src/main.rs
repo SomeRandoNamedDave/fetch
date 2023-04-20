@@ -11,12 +11,6 @@ use anyhow::{bail, Result};
 use chrono::prelude::*;
 use nvml_wrapper::{enum_wrappers::device::TemperatureSensor::Gpu, error::NvmlError, Nvml};
 
-macro_rules! cast {
-    ($x:expr) => {
-        u64::from($x)
-    };
-}
-
 const BQ: &str = "[0;38:5:19m!?[0m";
 const UNKNOWN: &str = "[0;38:5:19mUnknown![0m";
 
@@ -196,9 +190,9 @@ fn disk() -> Result<String> {
     unsafe {
         let mut stat: libc::statvfs = std::mem::zeroed();
         if libc::statvfs(c_path.as_ptr() as *const _, &mut stat) == 0 {
-            let bsize = cast!(stat.f_bsize);
-            let blocks = cast!(stat.f_blocks);
-            let bavail = cast!(stat.f_bavail);
+            let bsize = stat.f_bsize;
+            let blocks = stat.f_blocks;
+            let bavail = stat.f_bavail;
 
             total = bsize.saturating_mul(blocks);
             available = bsize.saturating_mul(bavail);
