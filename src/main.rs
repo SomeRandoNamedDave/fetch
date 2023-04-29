@@ -111,7 +111,7 @@ fn wall() -> Result<String> {
 fn ctemp() -> Result<String> {
     let input = read_to_string("/sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input")?;
     let temp = input.trim().parse::<i32>()?;
-    Ok((temp as f32 / 1000f32).to_string())
+    Ok((temp as f32 / 1_000f32).to_string())
 }
 
 fn gtemp() -> Result<String, NvmlError> {
@@ -131,7 +131,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1_024);
+        .saturating_mul(1024);
     let free = lines
         .next()
         .unwrap()?
@@ -139,7 +139,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1_024);
+        .saturating_mul(1024);
     let buffers = lines
         .nth(1)
         .unwrap()?
@@ -147,7 +147,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1_024);
+        .saturating_mul(1024);
     let cached = lines
         .next()
         .unwrap()?
@@ -155,7 +155,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1_024);
+        .saturating_mul(1024);
     let s_reclaimable = lines
         .nth(20)
         .unwrap()?
@@ -163,7 +163,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1_024);
+        .saturating_mul(1024);
 
     let used = total - free - buffers - cached - s_reclaimable;
 
@@ -171,7 +171,7 @@ fn ram() -> Result<String> {
 }
 
 fn fmt_ram(u: u64, t: u64) -> String {
-    let used = [(u / 1000000).to_string().as_str(), "[3;90mMB[0m"].join(" ");
+    let used = [(u / 1_000_000).to_string().as_str(), "[3;90mMB[0m"].join(" ");
     let mut perc = u as f64 / t as f64 * 100f64;
     perc = perc.round();
     let bar = get_bar(perc as u8);
@@ -204,7 +204,7 @@ fn disk() -> Result<String> {
     }
 
     let bar = disk_bar(available, total);
-    let used = (((total - available) as f64 / 1000000000.0) * 10.0).round() / 10.0;
+    let used = (((total - available) as f64 / 1_000_000_000f64) * 10f64).round() / 10f64;
 
     Ok(format!("{} {:.1} [3;90mGB[0m", bar, used))
 }
