@@ -18,7 +18,7 @@ fn main() {
     // may as well hardcode a lot of this stuff as it's unlikely to change
     let term = format!(
         "[3;90mTerminal: [0mwezterm [3;90mShell:[0m {}",
-        var("SHELL").unwrap().split('/').collect::<Vec<&str>>().last().unwrap()
+        var("SHELL").unwrap().split('/').last().unwrap()
     );
     let wm = "awesome";
     let editor = "neovim";
@@ -131,7 +131,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1024);
+        .saturating_mul(1_024);
     let free = lines
         .next()
         .unwrap()?
@@ -139,7 +139,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1024);
+        .saturating_mul(1_024);
     let buffers = lines
         .nth(1)
         .unwrap()?
@@ -147,7 +147,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1024);
+        .saturating_mul(1_024);
     let cached = lines
         .next()
         .unwrap()?
@@ -155,7 +155,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1024);
+        .saturating_mul(1_024);
     let s_reclaimable = lines
         .nth(20)
         .unwrap()?
@@ -163,7 +163,7 @@ fn ram() -> Result<String> {
         .nth(1)
         .unwrap()
         .parse::<u64>()?
-        .saturating_mul(1024);
+        .saturating_mul(1_024);
 
     let used = total - free - buffers - cached - s_reclaimable;
 
