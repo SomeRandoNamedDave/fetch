@@ -260,8 +260,8 @@ fn pkgs() -> Result<(String, String)> {
         .join("/")
     )?;
     pkgs.pop();
-    let p_vec = pkgs.split(' ').collect::<Vec<&str>>();
-    Ok((p_vec[0].to_string(), p_vec[1].to_string()))
+    let mut split = pkgs.split(' ');
+    Ok((split.next().unwrap().to_string(), split.next().unwrap().to_string()))
 }
 
 fn uptime() -> Result<String> {
