@@ -19,7 +19,7 @@ fn main() {
         "\x1b[3;90mTerminal: \x1b[0mwezterm \x1b[3;90mShell:\x1b[0m {}",
         var("SHELL").unwrap().split('/').last().unwrap()
     );
-    let wm = "awesome";
+    let wm = "Hyprland";
     let editor = "neovim";
     let browser = "qutebrowser";
     let font = "Iosevka [ \x1b[3mVictor Mono\x1b[0m ]";
