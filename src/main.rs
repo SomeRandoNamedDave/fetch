@@ -16,11 +16,21 @@ const UNKNOWN: &str = "\x1b[0;38:5:19mUnknown!\x1b[0m";
 fn main() {
     // may as well hardcode a lot of this stuff as it's unlikely to change
     let term = format!(
-        "\x1b[3;90mTerminal: \x1b[0mwezterm \x1b[3;90mShell:\x1b[0m {}",
+        "\x1b[3;90mTerminal: \x1b[0mWezTerm \x1b[3;90mShell:\x1b[0m {}",
         var("SHELL").unwrap().split('/').last().unwrap()
     );
-    let wm = "Hyprland";
-    let editor = "neovim";
+
+    let wm = if let Ok(x) = var("XDG_SESSION_TYPE") {
+        match x.as_str() {
+            "tty" => "awesome",
+            "wayland" => "Hyprland",
+            _ => UNKNOWN
+        }
+    } else {
+        UNKNOWN
+    };
+
+    let editor = "Neovim";
     let browser = "qutebrowser";
     let font = "Iosevka [ \x1b[3mVictor Mono\x1b[0m ]";
     // wallpaper
@@ -91,8 +101,7 @@ fn wall() -> Option<String> {
         [
             &var("XDG_CONFIG_HOME")
                 .unwrap_or_else(|_| [&var("HOME").unwrap(), ".config"].join("/")),
-            "awesome",
-            "assets",
+            "mood",
             "wallpaper"
         ]
         .join("/")
